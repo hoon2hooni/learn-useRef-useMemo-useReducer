@@ -1,4 +1,5 @@
 import React, { useRef, useReducer, Dispatch } from "react";
+import Inputs from "./components/Inputs";
 import Users from "./components/Users";
 import initialState, { State, User } from "./constants/initialState";
 import users from "./constants/users";
@@ -13,7 +14,7 @@ type Action =
   | { type: "CREATE_A_USER"; payload: User }
   | { type: "DELETE_A_USER"; payload: number };
 
-type AppDispatch = Dispatch<Action>;
+export type AppDispatch = Dispatch<Action>;
 interface IContext {
   state: State;
   dispatch: AppDispatch;
@@ -70,8 +71,10 @@ const appReducer = (state: State, action: Action) => {
 
 function App() {
   const [state, dispatch] = useReducer(appReducer, initialState);
+
   return (
     <>
+      <Inputs dispatch={dispatch} />
       <Users users={state.users} />
     </>
   );
