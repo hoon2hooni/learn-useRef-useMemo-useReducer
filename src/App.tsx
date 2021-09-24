@@ -13,7 +13,7 @@ type Action =
   | { type: "SHOW_ACTIVE_USERS" }
   | { type: "RESET" }
   | { type: "CREATE_A_USER"; payload: User }
-  | { type: "DELETE_A_USER"; payload: number };
+  | { type: "DELETE_A_SPECIFIC_USER"; payload: number };
 
 export type AppDispatch = Dispatch<Action>;
 interface IContext {
@@ -23,7 +23,10 @@ interface IContext {
 
 const countActiveUser = (users: Users) =>
   users.filter((user) => user.active).length;
-
+const deleteASpecificUser = (users: Users, specificId: number) => {
+  const result = users.filter(({ id }) => id !== specificId);
+  return { users: result, count: result.length };
+};
 const appReducer = (state: State, action: Action) => {
   switch (action.type) {
     case "RESET": {
@@ -64,11 +67,12 @@ const appReducer = (state: State, action: Action) => {
         count: state.count + 1,
       };
     }
-    case "DELETE_A_USER": {
+    case "DELETE_A_SPECIFIC_USER": {
+      const { users, count } = deleteASpecificUser(state.users, action.payload);
       return {
         ...state,
-        users: state.users.filter(({ id }) => id !== action.payload),
-        count: state.count - 1,
+        users,
+        count,
       };
     }
 
