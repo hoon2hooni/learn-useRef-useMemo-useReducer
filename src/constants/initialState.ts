@@ -1,29 +1,11 @@
-const initialState = {
-  users: [
-    {
-      id: 1,
-      username: "Kim",
-      age: 20,
-      active: false,
-    },
-    {
-      id: 2,
-      username: "Lee",
-      age: 30,
-      active: false,
-    },
-    {
-      id: 3,
-      username: "Choi",
-      age: 50,
-      active: false,
-    },
-  ],
-  inputs: {
-    username: "",
-    age: 0,
-  },
-  count: 3,
-};
+import users from "./users";
 
+const initialState = {
+  users,
+  count: users.length,
+  emailInput: "",
+  idInput: "",
+};
+export type User = typeof initialState.users[0];
+export type State = typeof initialState;
 export default initialState;
