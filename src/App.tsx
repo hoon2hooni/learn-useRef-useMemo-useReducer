@@ -7,8 +7,9 @@ import users from "./constants/users";
 type Users = typeof users;
 
 type Action =
-  | { type: "TYPE_USERID"; payload: string }
+  | { type: "TYPE_USERNAME"; payload: string }
   | { type: "TYPE_EMAIL"; payload: string }
+  | { type: "RESET_INPUTS" }
   | { type: "SHOW_ACTIVE_USERS" }
   | { type: "RESET" }
   | { type: "CREATE_A_USER"; payload: User }
@@ -43,10 +44,17 @@ const appReducer = (state: State, action: Action) => {
         emailInput: action.payload,
       };
     }
-    case "TYPE_USERID": {
+    case "TYPE_USERNAME": {
       return {
         ...state,
-        id: action.payload,
+        usernameInput: action.payload,
+      };
+    }
+    case "RESET_INPUTS": {
+      return {
+        ...state,
+        emailInput: "",
+        usernameInput: "",
       };
     }
     case "CREATE_A_USER": {
@@ -63,6 +71,7 @@ const appReducer = (state: State, action: Action) => {
         count: state.count - 1,
       };
     }
+
     default: {
       throw new Error("없는 Action입니다.");
     }
@@ -74,7 +83,7 @@ function App() {
 
   return (
     <>
-      <Inputs dispatch={dispatch} />
+      <Inputs state={state} dispatch={dispatch} />
       <Users users={state.users} />
     </>
   );

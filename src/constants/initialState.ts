@@ -4,7 +4,7 @@ const initialState = {
   users,
   count: users.length,
   emailInput: "",
-  idInput: "",
+  usernameInput: "",
 };
 export type User = typeof initialState.users[0];
 export type State = typeof initialState;
