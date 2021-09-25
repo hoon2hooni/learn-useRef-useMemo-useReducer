@@ -11,6 +11,7 @@ type InputAction =
   | { type: "TYPE_EMAIL"; payload: string }
   | { type: "RESET_INPUTS" };
 
+type EachInputActionType = Exclude<InputAction["type"], "RESET_INPUTS">;
 const inputInitialState = {
   id: "",
   email: "",
@@ -77,20 +78,11 @@ const Inputs: React.FC<{
       type: "RESET_INPUTS",
     });
   };
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    actionType: InputAction["type"]
-  ) => {
-    console.log(e);
-    inputDispatch({ type: actionType, payload: e.target.value });
-  };
-  const handleChangeEmailAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
-    inputDispatch({ type: "TYPE_EMAIL", payload: e.target.value });
-  };
-
-  const handleChangeUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
-    inputDispatch({ type: "TYPE_USERNAME", payload: e.target.value });
-  };
+  const handleInputChange =
+    (actionType: EachInputActionType) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      inputDispatch({ type: actionType, payload: e.target.value });
+    };
 
   return (
     <form onSubmit={handleCreateAUser}>
@@ -100,7 +92,7 @@ const Inputs: React.FC<{
       <input
         type="text"
         id={ID}
-        onChange={(e) => handleChange(e, "TYPE_ID")}
+        onChange={handleInputChange("TYPE_ID")}
         value={inputState.id}
       />
       <label htmlFor={EMAIL_ADDRESS}>
@@ -109,7 +101,7 @@ const Inputs: React.FC<{
       <input
         type="text"
         id={EMAIL_ADDRESS}
-        onChange={handleChangeEmailAddress}
+        onChange={handleInputChange("TYPE_EMAIL")}
         value={inputState.email}
       />
       <label htmlFor={USERNAME}>
@@ -118,7 +110,7 @@ const Inputs: React.FC<{
       <input
         type="text"
         id={USERNAME}
-        onChange={handleChangeUsername}
+        onChange={handleInputChange("TYPE_USERNAME")}
         value={inputState.username}
       ></input>
       <button>아이디 만들기 </button>
