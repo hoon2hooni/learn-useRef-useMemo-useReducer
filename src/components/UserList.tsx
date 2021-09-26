@@ -14,5 +14,5 @@ const Users: React.FC<{ users: User[] }> = ({ users }) => {
     </div>
   );
 };
-const MemoizedUsers = React.memo(Users);
-export default MemoizedUsers;
+
+export default Users;
